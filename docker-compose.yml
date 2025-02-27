@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: meu_db
+      MYSQL_USER: meu_user
+      MYSQL_PASSWORD: minha_senha
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app_net
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  redis:
+    image: redis:latest
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    networks:
+      - app_net
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile
+    container_name: spring_app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/meu_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: meu_user
+      SPRING_DATASOURCE_PASSWORD: minha_senha
+      SPRING_REDIS_HOST: redis_cache
+      SPRING_REDIS_PORT: 6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app_net
+
+volumes:
+  mysql_data:
+
+networks:
+  app_net:

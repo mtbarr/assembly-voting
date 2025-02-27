@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: assembly-voting
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: ${SPRING_REDIS_HOST}
+    port: ${SPRING_REDIS_PORT}
+  cache:
+    type: redis
+
+spring-doc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /
+    disable-swagger-default-url: false
+
+# Opções de configuração para a aplicação de votação
+session-settings:
+  # Tempo de duração de uma sessão de votação em segundos
+  life-time: 60
+
+  # Opções para enviar mensagem ao finalizar uma sessão de votação
+  post-result-on-end: true
+
+  # Intervalo de tempo para atualizar a sessão de votação em segundos
+  update-rate: 25
+
+  # Verificar se o CPF do associado é válido antes de votar
+  validate-cpf: true
+  endpoint-url: "https://user-info.herokuapp.com/users"
