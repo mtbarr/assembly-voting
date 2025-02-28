@@ -33,7 +33,6 @@ public class CpfUtilTest {
   }
 
   @Test
-//  void isValidCpf_withNonNumericCharacters_returnsFalse() {
   @DisplayName("Should return false if non numeric characters")
   void shouldReturnFalseIfNonNumericCharacters() {
     assertFalse(CpfUtil.isCpf("1234567890a"));
