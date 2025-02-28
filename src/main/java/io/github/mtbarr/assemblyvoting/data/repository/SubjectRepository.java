@@ -1,6 +1,8 @@
 package io.github.mtbarr.assemblyvoting.data.repository;
 
 import io.github.mtbarr.assemblyvoting.data.entity.SubjectEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,5 +16,7 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, UUID> {
   List<SubjectEntity> findAllOpenAndNotFinalized(LocalDateTime votingEndTime);
 
   @Query("select s from SubjectEntity s where s.finalized = true")
-  List<SubjectEntity> findAllFinalized();
+  Page<SubjectEntity> findAllFinalized(Pageable pageable);
+
+
 }

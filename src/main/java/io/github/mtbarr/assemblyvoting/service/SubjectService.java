@@ -90,4 +90,16 @@ public class SubjectService {
       .map(subjectMapper::toSubject)
       .toList();
   }
+
+  /**
+   * Lists all finished subjects with pagination.
+   *
+   * @param pageable the pagination information
+   * @return a paginated list of finished subjects
+   */
+  public Page<Subject> listAllFinishedSubjects(Pageable pageable) {
+    log.info("Fetching all finished subjects with pagination: {}", pageable);
+    return subjectRepository.findAllFinalized(pageable)
+      .map(subjectMapper::toSubject);
+  }
 }

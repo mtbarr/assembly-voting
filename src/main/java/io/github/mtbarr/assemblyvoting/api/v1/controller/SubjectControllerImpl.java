@@ -31,8 +31,9 @@ public class SubjectControllerImpl implements SubjectController {
   }
 
   @Override
+  @GetMapping("/finished")
   public Page<FinishedSubjectSessionResponse> listAllFinishedSubjects(Pageable pageable) {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return votingSessionService.listAllFinishedSubjects(pageable);
   }
 
   @Override

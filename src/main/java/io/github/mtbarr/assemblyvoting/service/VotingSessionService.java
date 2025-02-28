@@ -1,6 +1,8 @@
 package io.github.mtbarr.assemblyvoting.service;
 
+import io.github.mtbarr.assemblyvoting.api.v1.response.FinishedSubjectSessionResponse;
 import io.github.mtbarr.assemblyvoting.config.SessionServiceConfiguration;
+import io.github.mtbarr.assemblyvoting.data.projection.SessionResultProjection;
 import io.github.mtbarr.assemblyvoting.data.repository.VoteRepository;
 import io.github.mtbarr.assemblyvoting.domain.SessionResultType;
 import io.github.mtbarr.assemblyvoting.domain.Subject;
@@ -11,6 +13,8 @@ import io.github.mtbarr.assemblyvoting.mapper.VoteMapper;
 import io.github.mtbarr.assemblyvoting.messaging.VotingSessionResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -104,15 +108,29 @@ public class VotingSessionService {
     log.info("Session for subject with id: {} finalized", sessionResult);
   }
 
+  public Page<FinishedSubjectSessionResponse> listAllFinishedSubjects(Pageable pageable) {
+    log.info("Fetching all finished subjects with pagination: {}", pageable);
+    return subjectService.listAllFinishedSubjects(pageable)
+      .map(this::computeFinalizedResponse);
+  }
 
-  // Possible refactoring to use a sql projection result instead of computing the result in memory
+
+  private FinishedSubjectSessionResponse computeFinalizedResponse(Subject subject) {
+    var voteCount = voteRepository.countVotesBySubjectId(subject.getId());
+    var yesVotes = voteCount.getYesVotes();
+    var noVotes = voteCount.getNoVotes();
+
+    return new FinishedSubjectSessionResponse(
+      subject.getId(),
+      subject.getTitle(),
+      subject.getDescription(),
+      calculateSessionResultType(yesVotes, noVotes),
+      yesVotes,
+      noVotes
+    );
+  }
+
   private VotingSessionResult computeResult(Subject subject) {
-//    var votes = voteRepository.findBySubjectId(subject.getId());
-//
-//    var yesVotes = votes.stream().filter(vote -> vote.getVoteType() == VoteType.YES).count();
-//    var noVotes = votes.stream().filter(vote -> vote.getVoteType() == VoteType.NO).count();
-
-
     var voteCount = voteRepository.countVotesBySubjectId(subject.getId());
     var yesVotes = voteCount.getYesVotes();
     var noVotes = voteCount.getNoVotes();
