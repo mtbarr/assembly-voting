@@ -5,6 +5,7 @@ import io.github.mtbarr.assemblyvoting.api.v1.request.StartVotingSessionRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.request.SubjectVoteRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.response.FinishedSubjectSessionResponse;
 import io.github.mtbarr.assemblyvoting.api.v1.response.SubjectResponse;
+import io.github.mtbarr.assemblyvoting.api.v1.response.VoteResponse;
 import io.github.mtbarr.assemblyvoting.service.SubjectService;
 import io.github.mtbarr.assemblyvoting.service.VotingSessionService;
 import jakarta.validation.Valid;
@@ -52,7 +53,7 @@ public class SubjectControllerImpl implements SubjectController {
   @Override
   @PostMapping("/vote")
   @ResponseStatus(HttpStatus.CREATED)
-  public void voteOnSubject(@RequestBody SubjectVoteRequest request) {
-    votingSessionService.voteOnSubject(request.subjectId(), request.associateId(), request.voteType());
+  public VoteResponse voteOnSubject(@RequestBody SubjectVoteRequest request) {
+    return new VoteResponse(votingSessionService.voteOnSubject(request.subjectId(), request.associateId(), request.voteType()));
   }
 }

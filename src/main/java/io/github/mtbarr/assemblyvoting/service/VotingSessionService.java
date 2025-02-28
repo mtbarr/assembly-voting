@@ -2,6 +2,7 @@ package io.github.mtbarr.assemblyvoting.service;
 
 import io.github.mtbarr.assemblyvoting.api.v1.response.FinishedSubjectSessionResponse;
 import io.github.mtbarr.assemblyvoting.config.SessionServiceConfiguration;
+import io.github.mtbarr.assemblyvoting.data.entity.VoteEntity;
 import io.github.mtbarr.assemblyvoting.data.projection.SessionResultProjection;
 import io.github.mtbarr.assemblyvoting.data.repository.VoteRepository;
 import io.github.mtbarr.assemblyvoting.domain.SessionResultType;
@@ -62,7 +63,7 @@ public class VotingSessionService {
     log.info("Session for subject {} opened until {}", subjectId, time);
   }
 
-  public void voteOnSubject(UUID subjectId, UUID associateId, VoteType voteType) {
+  public Vote voteOnSubject(UUID subjectId, UUID associateId, VoteType voteType) {
     log.info("Voting on subject with id: {} for associate with id: {} and type: {}", subjectId, associateId, voteType);
 
     var subject = subjectService.getSubject(subjectId);
@@ -80,8 +81,9 @@ public class VotingSessionService {
       .build();
 
     log.info("Saving vote: {}", vote);
-    voteRepository.save(voteMapper.toEntity(vote));
+    VoteEntity saved = voteRepository.save(voteMapper.toEntity(vote));
     log.info("Vote saved: {}", vote);
+    return voteMapper.toVote(saved);
   }
 
 

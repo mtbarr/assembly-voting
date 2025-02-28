@@ -6,6 +6,7 @@ import io.github.mtbarr.assemblyvoting.api.v1.request.StartVotingSessionRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.request.SubjectVoteRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.response.FinishedSubjectSessionResponse;
 import io.github.mtbarr.assemblyvoting.api.v1.response.SubjectResponse;
+import io.github.mtbarr.assemblyvoting.api.v1.response.VoteResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,5 +59,5 @@ public interface SubjectController {
     @ApiResponse(responseCode = "404", description = "Pauta não encontrada"),
     @ApiResponse(responseCode = "409", description = "Sessão de votação encerrada")
   })
-  void voteOnSubject(@RequestBody SubjectVoteRequest request);
+  VoteResponse voteOnSubject(@RequestBody SubjectVoteRequest request);
 }
