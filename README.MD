@@ -64,8 +64,8 @@ cpf-validator-url:"https://user-info.herokuapp.com/users"
 
 ### Tarefa Bônus 2 - Performance
 
-Optei por fazer algumas otimizações nas consultas ao banco de dados, como por exemplo, a paginação de resultados e a
-utilização de projections para evitar o carregamento de entidades completas em consultas especificas.
+Optei por fazer algumas otimizações nas consultas ao banco de dados, como por exemplo, a paginação de resultados e
+a utilização de objetos primitivos para serem retornados nas consultas, evitando a criação de objetos desnecessários.
 
 Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas.
 
