@@ -68,7 +68,7 @@ Optei por fazer algumas otimizações nas consultas ao banco de dados, como por 
 a utilização de objetos primitivos para serem retornados nas consultas, evitando a criação de objetos desnecessários.
 
 Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas assim como
-fazer com que o sistema de votação seja assincrono.
+fazer com que o sistema de votação seja assíncrono.
 
 ### Tarefa Bônus 3 - Mensageria e filas
 
