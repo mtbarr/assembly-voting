@@ -1,5 +1,4 @@
 # Desafio Técnico - Sessões de votação.
-Teste feito para NTConsult/Sicredi.
 
 ## Objetivo
 
@@ -24,17 +23,17 @@ de uso).
 ---
 
 ## Tecnologias
-- Java 17 
+
+- Java 17
 - Spring Boot 3
 - Kafka
 - MySQL
+- Swagger
 
 ### Tarefa Bônus 1 - Integração com Sistemas Externos
 
 A Integração para verificar se o cpf de um associado é valido pode ser ativada e a url do endpoint pode ser configurada
 através da configuração da aplicação, para isso basta adicionar a seguinte propriedade no arquivo `application.yml`:
-
-OBS: precisei criar um serviço para simular a validação do CPF, a URL do desafio não estava funcionando.
 
 ```properties
 session:
@@ -65,20 +64,51 @@ cpf-validator-url:"https://user-info.herokuapp.com/users"
 
 ### Tarefa Bônus 2 - Performance
 
-Não consegui terminar a tempo. Porém a ideia era implementar um cache para as sessões de votação,
-para que a aplicação não precise acessar o banco de dados a cada requisição.
+Optei por fazer algumas otimizações nas consultas ao banco de dados, como por exemplo, a paginação de resultados e a
+utilização de projections para evitar o carregamento de entidades completas em consultas especificas.
 
-## Tarefa Bônus 3 - Mensageria e filas
+Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas.
+
+### Tarefa Bônus 3 - Mensageria e filas
 
 Uma mensagem com o resultado é publicada para um tópico do Kafka quando a sessão de votação é encerrada.
 
 ### Tarefa Bônus 4 - Versionamento da API
 
-Utilizei versionamento da API através do caminho (exemplo: `/v1/subjects`, `/v2/subjects`), o que permite que a aplicação
+Utilizei versionamento da API através do caminho (exemplo: `/v1/subjects`, `/v2/subjects`), o que permite que a
+aplicação
 evolua sem quebrar a compatibilidade com versões anteriores.
 
 As versões estão organizadas em pacotes separados, facilitando a manutenção e a introdução de novas funcionalidades de
 forma independente.
+
+---
+
+## Como subir a aplicação localmente.
+
+### Clonar o repositório
+
+#### Requisitos
+
+- Java 17
+- Gradle
+- Docker
+
+### Clone o repositório
+
+```
+git clone https://github.com/mtbarr/assembly-voting.git
+```
+
+### Executar o docker-compose
+
+```shell
+docker-compose up -d
+```
+
+### Documentação da API
+
+A documentação da API pode ser acessada através do Swagger, no endereço: http://localhost:8080/swagger-ui/index.html
 
 ---
 
@@ -89,6 +119,3 @@ forma independente.
 - Cache para as sessões de votação, associados e pautas;
 
 ---
-
-**Sicredi - Cooperativa de Crédito**
-
