@@ -8,7 +8,7 @@ public record StartVotingSessionRequest(
   @Schema(description = "ID da pauta", example = "123e4567-e89b-12d3-a456-426614174000")
   UUID subjectId,
 
-  @Schema(description = "Duração da sessão de votação em minutos", example = "60")
+  @Schema(description = "Duração da sessão de votação em segundos", example = "60")
   int duration
 ) {
 }
