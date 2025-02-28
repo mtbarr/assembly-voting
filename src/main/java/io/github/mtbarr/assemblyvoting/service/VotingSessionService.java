@@ -116,10 +116,8 @@ public class VotingSessionService {
 
 
   private FinishedSubjectSessionResponse computeFinalizedResponse(Subject subject) {
-    var voteCount = voteRepository.countVotesBySubjectId(subject.getId());
-    var yesVotes = voteCount.getYesVotes();
-    var noVotes = voteCount.getNoVotes();
-
+    var yesVotes = voteRepository.countByVoteTypeAndSubjectId(VoteType.YES, subject.getId());
+    var noVotes = voteRepository.countByVoteTypeAndSubjectId(VoteType.NO, subject.getId());
     return new FinishedSubjectSessionResponse(
       subject.getId(),
       subject.getTitle(),
@@ -131,9 +129,9 @@ public class VotingSessionService {
   }
 
   private VotingSessionResult computeResult(Subject subject) {
-    var voteCount = voteRepository.countVotesBySubjectId(subject.getId());
-    var yesVotes = voteCount.getYesVotes();
-    var noVotes = voteCount.getNoVotes();
+    var yesVotes = voteRepository.countByVoteTypeAndSubjectId(VoteType.YES, subject.getId());
+    var noVotes = voteRepository.countByVoteTypeAndSubjectId(VoteType.NO, subject.getId());
+    log.info("Yes {} No {}", yesVotes, noVotes);
 
     return new VotingSessionResult(
       subject.getId(),
