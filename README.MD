@@ -67,7 +67,8 @@ cpf-validator-url:"https://user-info.herokuapp.com/users"
 Optei por fazer algumas otimizações nas consultas ao banco de dados, como por exemplo, a paginação de resultados e
 a utilização de objetos primitivos para serem retornados nas consultas, evitando a criação de objetos desnecessários.
 
-Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas.
+Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas assim como
+fazer com que o sistema de votação seja assincrono.
 
 ### Tarefa Bônus 3 - Mensageria e filas
 
