@@ -1,24 +1,24 @@
-# Desafio Técnico - Sessões de votação.
+# Desafio Técnico - Sessões de Votação
 
 ## Objetivo
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. A partir disso,
+No cooperativismo, cada associado possui um voto, e as decisões são tomadas em assembleias por meio de votação. A partir disso,
 você precisa criar uma solução back-end para gerenciar essas sessões de votação.
 
-Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
+Essa solução deve ser executada na nuvem e disponibilizar as seguintes funcionalidades por meio de uma API REST:
 
 - Cadastrar uma nova pauta;
-- Abrir uma sessão de votação em uma pauta (a sessão de votação deve ficar aberta por um tempo determinado na chamada de
-  abertura ou 1 minuto por default);
-- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado é identificado por um id único
+- Abrir uma sessão de votação em uma pauta (a sessão de votação deve permanecer aberta pelo tempo determinado na chamada de
+  abertura ou por 1 minuto por padrão);
+- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado é identificado por um ID único
   e pode votar apenas uma vez por pauta);
-- Contabilizar os votos e dar o resultado da votação na pauta.
+- Contabilizar os votos e apresentar o resultado da votação na pauta.
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser
-considerada como autorizada. A escolha da linguagem, frameworks e bibliotecas é livre (desde que não infrinja direitos
+Para fins de exercício, a segurança das interfaces pode ser abstraída, e qualquer chamada para as interfaces pode ser
+considerada autorizada. A escolha da linguagem, frameworks e bibliotecas é livre (desde que não infrinja direitos
 de uso).
 
-É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
+É importante que as pautas e os votos sejam persistidos e não sejam perdidos com o reinício da aplicação.
 
 ---
 
@@ -32,16 +32,15 @@ de uso).
 
 ### Tarefa Bônus 1 - Integração com Sistemas Externos
 
-A Integração para verificar se o cpf de um associado é valido pode ser ativada e a url do endpoint pode ser configurada
-através da configuração da aplicação, para isso basta adicionar a seguinte propriedade no arquivo `application.yml`:
+A integração para verificar se o CPF de um associado é válido pode ser ativada, e a URL do endpoint pode ser configurada
+por meio do arquivo de configuração `application.yml`. Para isso, basta adicionar a seguinte propriedade:
 
 ```properties
 session:
-# Verificar se o CPF do associado é válido antes de votar
-validate-cpf:true
-# URL do serviço que valida o CPF
-cpf-validator-url:"https://user-info.herokuapp.com/users"
-
+  # Verificar se o CPF do associado é válido antes de votar
+  validate-cpf: true
+  # URL do serviço que valida o CPF
+  cpf-validator-url: "https://user-info.herokuapp.com/users"
 ```
 
 #### Exemplos de retorno do serviço:
@@ -64,59 +63,54 @@ cpf-validator-url:"https://user-info.herokuapp.com/users"
 
 ### Tarefa Bônus 2 - Performance
 
-Optei por fazer algumas otimizações nas consultas ao banco de dados, como por exemplo, a paginação de resultados e
-a utilização de objetos primitivos para serem retornados nas consultas, evitando a criação de objetos desnecessários.
+Optei por realizar algumas otimizações nas consultas ao banco de dados, como a paginação de resultados e
+a utilização de objetos primitivos para serem retornados, evitando a criação de objetos desnecessários.
 
-Uma possivel melhoria seria implementar um cache para as sessões de votação, associados e pautas assim como
+Uma possível melhoria seria a implementação de um cache para as sessões de votação, associados e pautas, assim como
 fazer com que o sistema de votação seja assíncrono.
 
-### Tarefa Bônus 3 - Mensageria e filas
+### Tarefa Bônus 3 - Mensageria e Filas
 
-Uma mensagem com o resultado é publicada para um tópico do Kafka quando a sessão de votação é encerrada.
+Uma mensagem com o resultado é publicada em um tópico do Kafka quando a sessão de votação é encerrada.
 
 ### Tarefa Bônus 4 - Versionamento da API
 
-Utilizei versionamento da API através do caminho (exemplo: `/v1/subjects`, `/v2/subjects`), o que permite que a
-aplicação
-evolua sem quebrar a compatibilidade com versões anteriores.
+Utilizei versionamento da API por meio do caminho (exemplo: `/v1/subjects`, `/v2/subjects`), o que permite que a
+aplicação evolua sem quebrar a compatibilidade com versões anteriores.
 
-As versões estão organizadas em pacotes separados, facilitando a manutenção e a introdução de novas funcionalidades de
-forma independente.
+As versões estão organizadas em pacotes separados, facilitando a manutenção e a introdução de novas funcionalidades
+de forma independente.
 
 ---
 
-## Como subir a aplicação localmente.
+## Como subir a aplicação localmente
 
-### Clonar o repositório
-
-#### Requisitos
+### Requisitos
 
 - Java 17
 - Gradle
 - Docker
 
-### Clone o repositório
+### Clonar o repositório
 
-```
+```sh
 git clone https://github.com/mtbarr/assembly-voting.git
 ```
 
-### Executar o docker-compose
+### Executar o Docker Compose
 
-```shell
+```sh
 docker-compose up -d
 ```
 
 ### Documentação da API
 
-A documentação da API pode ser acessada através do Swagger, no endereço: http://localhost:8080/swagger-ui/index.html
+A documentação da API pode ser acessada por meio do Swagger, no endereço: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
 ---
 
 ## Possíveis melhorias
 
 - Cobrir mais cenários de testes;
-- Fazer com que o sistema de votação seja assincrono;
-- Cache para as sessões de votação, associados e pautas;
-
----
+- Tornar o sistema de votação assíncrono;
+- Implementar cache para as sessões de votação, associados e pautas.
