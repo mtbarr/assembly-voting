@@ -6,18 +6,28 @@ spring:
     name: assembly-voting
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: false
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  redis:
-    host: ${SPRING_REDIS_HOST}
-    port: ${SPRING_REDIS_PORT}
-  cache:
-    type: redis
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: voting-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      session:
+        timeout:
+          ms: 30000
+      request:
+        timeout:
+          ms: 30000
 
 spring-doc:
   api-docs:
@@ -38,5 +48,8 @@ session-settings:
   update-rate: 25
 
   # Verificar se o CPF do associado é válido antes de votar
-  validate-cpf: true
+  validate-cpf: false
+
+  #  Por algum motivo o endpoint de validação de CPF não está funcionando
+  #  então foi criado um endpoint local para simular a validação
   endpoint-url: "https://user-info.herokuapp.com/users"

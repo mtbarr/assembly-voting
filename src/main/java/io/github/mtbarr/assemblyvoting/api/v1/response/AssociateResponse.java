@@ -1,6 +1,7 @@
 package io.github.mtbarr.assemblyvoting.api.v1.response;
 
 
+import io.github.mtbarr.assemblyvoting.domain.Associate;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.UUID;
@@ -12,5 +13,9 @@ public record AssociateResponse(
   @Schema(description = "CPF do associado criado", example = "612.826.120-90")
   String cpf
 ) {
+
+  public AssociateResponse(Associate associate) {
+    this(associate.getId(), associate.getCpf());
+  }
 }
 

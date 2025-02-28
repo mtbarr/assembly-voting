@@ -1,4 +1,5 @@
-# Desafio Técnico
+# Desafio Técnico - Sessões de votação.
+Teste feito para NTConsult/Sicredi.
 
 ## Objetivo
 
@@ -22,15 +23,18 @@ de uso).
 
 ---
 
-## Tarefas Bônus
-
-As tarefas bônus não são obrigatórias, mas nos permitem avaliar outros conhecimentos que você possa ter. É recomendado
-ponderar e apresentar até onde consegue fazer, considerando o seu nível de conhecimento e a qualidade da entrega.
+## Tecnologias
+- Java 17 
+- Spring Boot 3
+- Kafka
+- MySQL
 
 ### Tarefa Bônus 1 - Integração com Sistemas Externos
 
 A Integração para verificar se o cpf de um associado é valido pode ser ativada e a url do endpoint pode ser configurada
 através da configuração da aplicação, para isso basta adicionar a seguinte propriedade no arquivo `application.yml`:
+
+OBS: precisei criar um serviço para simular a validação do CPF, a URL do desafio não estava funcionando.
 
 ```properties
 session:
@@ -66,12 +70,11 @@ para que a aplicação não precise acessar o banco de dados a cada requisição
 
 ## Tarefa Bônus 3 - Mensageria e filas
 
-Não consegui terminar a tempo. Porém a ideia era implementar um sistema de mensageria para que a aplicação não precise
-contabilizar os votos de forma síncrona, o que pode ser custoso e demorado em casos de muitos votos.
+Uma mensagem com o resultado é publicada para um tópico do Kafka quando a sessão de votação é encerrada.
 
 ### Tarefa Bônus 4 - Versionamento da API
 
-Utilizei versionamento da API através do caminho (exemplo: `/v1/sessions`, `/v2/sessions`), o que permite que a aplicação
+Utilizei versionamento da API através do caminho (exemplo: `/v1/subjects`, `/v2/subjects`), o que permite que a aplicação
 evolua sem quebrar a compatibilidade com versões anteriores.
 
 As versões estão organizadas em pacotes separados, facilitando a manutenção e a introdução de novas funcionalidades de
@@ -79,28 +82,11 @@ forma independente.
 
 ---
 
-## O que será analisado
-
-- Simplicidade no design da solução (evitar over engineering);
-- Organização do código;
-- Arquitetura do projeto;
-- Boas práticas de programação (manutenibilidade, legibilidade etc);
-- Possíveis bugs;
-- Tratamento de erros e exceções;
-- Explicação breve do porquê das escolhas tomadas durante o desenvolvimento da solução;
-- Uso de testes automatizados e ferramentas de qualidade;
-- Limpeza do código;
-- Documentação do código e da API;
-- Logs da aplicação;
-- Mensagens e organização dos commits.
-
----
-
 ## Possíveis melhorias
 
 - Cobrir mais cenários de testes;
 - Fazer com que o sistema de votação seja assincrono;
-- Messageria para contabilizar os votos e apurar o resultado;
+- Cache para as sessões de votação, associados e pautas;
 
 ---
 

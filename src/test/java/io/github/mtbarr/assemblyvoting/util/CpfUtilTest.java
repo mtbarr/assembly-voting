@@ -9,26 +9,26 @@ public class CpfUtilTest {
 
   @Test
   void isValidCpf_withValidCpf_returnsTrue() {
-    assertTrue(CpfUtil.isValidCpf("12345678909"));
+    assertTrue(CpfUtil.isCpf("12345678909"));
   }
 
   @Test
   void isValidCpf_withInvalidCpfLength_returnsFalse() {
-    assertFalse(CpfUtil.isValidCpf("1234567890"));
+    assertFalse(CpfUtil.isCpf("1234567890"));
   }
 
   @Test
   void isValidCpf_withAllSameDigits_returnsFalse() {
-    assertFalse(CpfUtil.isValidCpf("11111111111"));
+    assertFalse(CpfUtil.isCpf("11111111111"));
   }
 
   @Test
   void isValidCpf_withInvalidCheckDigits_returnsFalse() {
-    assertFalse(CpfUtil.isValidCpf("12345678900"));
+    assertFalse(CpfUtil.isCpf("12345678900"));
   }
 
   @Test
   void isValidCpf_withNonNumericCharacters_returnsFalse() {
-    assertFalse(CpfUtil.isValidCpf("1234567890a"));
+    assertFalse(CpfUtil.isCpf("1234567890a"));
   }
 }

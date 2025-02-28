@@ -24,7 +24,7 @@ public class SubjectEntity {
   @Column(nullable = false)
   private String description;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private LocalDateTime votingEndTime;
 
   @Column(nullable = false)

@@ -4,8 +4,8 @@ package io.github.mtbarr.assemblyvoting.api.v1.controller;
 import io.github.mtbarr.assemblyvoting.api.v1.request.CreateSubjectRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.request.StartVotingSessionRequest;
 import io.github.mtbarr.assemblyvoting.api.v1.request.SubjectVoteRequest;
+import io.github.mtbarr.assemblyvoting.api.v1.response.FinishedSubjectSessionResponse;
 import io.github.mtbarr.assemblyvoting.api.v1.response.SubjectResponse;
-import io.github.mtbarr.assemblyvoting.api.v1.response.VotingSessionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,10 +21,19 @@ public interface SubjectController {
 
 
   @Operation(summary = "Listar todas as pautas", description = "Lista todas as pautas cadastradas no sistema")
+  @Parameter(name = "pageable", description = "Parâmetros de paginação", required = true)
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Pautas listadas com sucesso"),
   })
   Page<SubjectResponse> listAllSubjects(@PageableDefault Pageable pageable);
+
+
+  @Operation(summary = "Listar todas as pautas finalizadas", description = "Lista todas as pautas finalizadas no sistema")
+  @Parameter(name = "pageable", description = "Parâmetros de paginação", required = true)
+  @ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Pautas finalizadas listadas com sucesso"),
+  })
+  Page<FinishedSubjectSessionResponse> listAllFinishedSubjects(@PageableDefault Pageable pageable);
 
   @Operation(summary = "Criar uma nova pauta", description = "Cria uma nova pauta no sistema")
   @Parameter(name = "request", description = "Dados da pauta a ser criada", required = true)
@@ -39,7 +48,7 @@ public interface SubjectController {
     @ApiResponse(responseCode = "201", description = "Sessão de votação iniciada com sucesso"),
     @ApiResponse(responseCode = "404", description = "Pauta não encontrada")
   })
-  VotingSessionResponse startVotingSession(@RequestBody StartVotingSessionRequest request);
+  void startVotingSession(@RequestBody StartVotingSessionRequest request);
 
 
   @Operation(summary = "Votar em uma pauta", description = "Vota em uma pauta")

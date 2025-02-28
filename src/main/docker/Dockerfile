@@ -7,15 +7,15 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
-RUN chmod +x ./gradlew
+
 # Baixar todas as dependências para aproveitar o cache
-RUN ./gradlew dependencies --no-daemon
+RUN chmod +x ./gradlew && ./gradlew dependencies --no-daemon --build-cache
 
 # Então copiar o código-fonte
 COPY src src
 
 # Executar o build com otimizações
-RUN ./gradlew build --no-daemon -x test
+RUN ./gradlew build --no-daemon -x test --parallel --build-cache
 
 # Stage 2: Criar a imagem final apenas com o JRE e o JAR
 FROM eclipse-temurin:17-jre-alpine

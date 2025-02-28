@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 
 @Tag(name = "API de associados", description = "Operações relacionadas a associados")
@@ -17,7 +19,7 @@ public interface AssociateController {
   @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Associados listados com sucesso"),
   })
-  Page<AssociateResponse> listAllAssociates();
+  Page<AssociateResponse> listAllAssociates(@PageableDefault Pageable pageable);
 
   @Operation(summary = "Registrar um novo associado", description = "Registra um novo associado no sistema")
   @Parameter(name = "request", description = "Dados do associado a ser registrado", required = true)
